@@ -1,0 +1,16 @@
+<service>
+  <id>nginx</id>
+  <name>nginx</name>
+  <description>nginx</description>
+  <executable>D:\weather\nginx.exe</executable>
+  <logpath>D:\weather\nginx_service\log\</logpath>
+  <logmode>roll</logmode>
+  <depend></depend>
+  <startargument>-p</startargument>
+  <startargument>D:\weather</startargument>
+  <stopexecutable>D:\weather\nginx.exe</stopexecutable>
+  <stopargument>-p</stopargument>
+  <stopargument>D:\weather</stopargument>
+  <stopargument>-s</stopargument>
+  <stopargument>stop</stopargument>
+</service>

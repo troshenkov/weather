@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="Weather Application for outdoor led screenpowered by <info@centre.media>">
+		<meta name="author" content="Dmitry Troshenkov <troshenkov.d@gmail.com>">
+		<link rel="icon" href="">
+
+		<title>Weather - New York</title>
+
+		<!-- Bootstrap core CSS -->
+                <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic,700,700italic">
+
+		<!-- Custom styles for this template -->
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons-wind.min.css">
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+		<!--[endif]-->
+	</head>
+	<body>
+
+	<div class="wrapper">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12" id="date">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div>Centre.MEDIA</div>
+						<p id="city"></p>
+						<p id="weather"></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12 weather-details">
+						<span><i id="icon"></i></span>
+						<span id="temperature"></span>
+						<span class="degree">&deg;<a href="#" id="unit" onClick="changeUnit();return false">F</a></span>
+					</div>
+				</div>
+
+				<div class="row other-info">
+					<div class="col-sm-2 col-sm-offset-0 col-xs-3 col-xs-offset-0">
+						<span id="sunrise">
+							<i class="wi wi-sunrise"></i>
+							<label>Sunrise</label>
+						</span>
+					</div>
+					<div class="col-sm-2 col-xs-3">
+						<span id="sunset">
+							<i class="wi wi-sunset"></i>
+							<label>Sunset</label>
+						</span>
+					</div>
+					<div class="col-sm-2 col-sm-offset-0 col-xs-3 col-xs-offset-0">
+						<span id="humidity">
+							<i class="wi wi-humidity"></i>
+							<label>Humidity</label>
+						</span>
+					</div>
+					<div class="col-sm-2 col-xs-3">
+						<span id="wind">
+							<i class="wi wi-windy"></i>
+							<label>Wind</label>
+						</span>
+					</div>
+				</div><!-- .other-info -->
+			</div><!-- .container -->
+		</div><!-- .wrapper -->
+
+		<!-- Bootstrap core JavaScript
+		 ==========================================================
+		 Placed at the end of the document so the pages load faster -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/setImmediate/1.0.5/setImmediate.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/promise-js@0.0.7/promise.min.js"></script>
+		<script type="application/json" src="json/icons.json"></script>
+		<script src="javascript/weather.js"></script>
+	</body>
+</html>
