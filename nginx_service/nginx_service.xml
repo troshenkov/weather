@@ -2,13 +2,27 @@
   <id>nginx</id>
   <name>nginx</name>
   <description>nginx</description>
+  
+  <!-- Path to the nginx executable -->
   <executable>D:\weather\nginx.exe</executable>
+  
+  <!-- Path to store logs for the service -->
   <logpath>D:\weather\nginx_service\log\</logpath>
+  
+  <!-- Log mode, rolling logs in this case -->
   <logmode>roll</logmode>
+  
+  <!-- No specific dependencies in this case -->
   <depend></depend>
+  
+  <!-- Arguments for starting nginx service -->
   <startargument>-p</startargument>
   <startargument>D:\weather</startargument>
+  
+  <!-- Path to the executable to stop the nginx service -->
   <stopexecutable>D:\weather\nginx.exe</stopexecutable>
+  
+  <!-- Arguments for stopping nginx service -->
   <stopargument>-p</stopargument>
   <stopargument>D:\weather</stopargument>
   <stopargument>-s</stopargument>
