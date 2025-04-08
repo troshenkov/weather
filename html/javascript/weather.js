@@ -1,232 +1,197 @@
 var currentWeather, city;
 
 /**
- * @summary Sends HTTP request to get data from url using promise.
+ * @summary Sends HTTP request to get data from a URL using a promise.
  *
- * @param string $url Url for fetching data from.
+ * @param string url URL for fetching data from.
  *
- * @return object Either data fetched from url is returned or error is returned.
+ * @return object Data fetched from the URL or error.
  */
-function getData( url ) {
-	return new Promise( function ( resolve, reject ) {
-	var req = new XMLHttpRequest();
-	req.open( 'GET', url, true );
-	req.onload = function() {
-		if ( req.status == 200 ) {
-			resolve( req.response );
-		}
-		else {
-			reject( Error ( req.statusText ));
-		}
-	};
-	
-	req.onerror = function() {
-		reject( Error ( "Network Error" ) );
-	};
-	
-	req.send();
-	});
-}	
-
-/**
- * @summary Initiates and completes the process of fetching data and displaying it.
- */
-function init() {
-	getLocation().then ( function( response ) {
-			setLocation( response );
-			getWeatherData().then ( function( response ){
-				setWeather( response );
-				getIcon( response );
-				setCurrentTime( response );
-				setOtherInfo( response );
-				})
-			.catch( function( error ) { 
-				document.write ( 'Error: ', error );
-				});
-			})
-		.catch( function( error ) {
-			document.write ( 'Error2: ', error );
-		});
+async function getData(url) {
+  try {
+    let req = await fetch(url);
+    if (!req.ok) {
+      throw new Error(req.statusText);
+    }
+    return await req.json();
+  } catch (error) {
+    throw new Error('Network Error: ' + error.message);
+  }
 }
 
 /**
- * @summary Used to get location info.
- *
- * @return object Promise is returned after fetching data.
- *
-*/
-function getLocation() {
-	locationApiurl = "https://ipinfo.io/json";
-	return getData( locationApiurl );
+ * @summary Initiates the fetching of location and weather data.
+ */
+async function init() {
+  try {
+    const locationData = await getLocation();
+    setLocation(locationData);
+
+    const weatherData = await getWeatherData();
+    setWeather(weatherData);
+    getIcon(weatherData);
+    setCurrentTime(weatherData);
+    setOtherInfo(weatherData);
+  } catch (error) {
+    console.error('Error:', error.message);
+    document.write('Error: ' + error.message);
+  }
 }
 
 /**
- * @summary Sets location of the user by parsing the reposnse object.
+ * @summary Gets location information.
  *
- * @param object $locationData location response object returned by request.
- *
- * @global string $city city is set to be used in getting weather data.
+ * @return object The location data.
  */
-function setLocation( locationData ) {
-	loc = JSON.parse( locationData ) ;
-	city = loc.city + "," + loc.country;
+async function getLocation() {
+  const locationApiUrl = "https://ipinfo.io/json";
+  return await getData(locationApiUrl);
+}
+
+/**
+ * @summary Sets location information.
+ *
+ * @param object locationData The location response data.
+ */
+function setLocation(locationData) {
+  const loc = locationData;
+  city = `${loc.city},${loc.country}`;
 }
 
 /**
  * @summary Sends request to get weather data.
  *
- * @return object Promise object is returned ofter getting weather data.
+ * @return object The weather data.
  */
-
-/* Get location by City*/
-function getWeatherData() {
-	//var weatherApiUrl = "http://api.openweathermap.org/data/2.5/weather?";
-	//var weatherAppId = "&APPID=7040a1f543f50652aee32c6eeedc83e7";
-	//var weatherAppId = "&APPID=2a48b250e8c5413273a05392c3ecab7f";
-	//var units = "&units=imperial";
-	//var lang = "&lang=en";
-	//return getData ( weatherApiUrl + city + weatherAppId + units + lang);
-	return getData ( "http://localhost/json/weather.json" );
+async function getWeatherData() {
+  const weatherApiUrl = "http://localhost/json/weather.json";
+  return await getData(weatherApiUrl);
 }
 
 /**
- * @summary Sorts out the city name & weather and display it in the application.
+ * @summary Sets the weather information in the DOM.
  *
- * @param object $weatherObject weather response object returned by request.
+ * @param object weatherData The weather data response.
  */
-function setWeather( weatherObject ) {
-	var rawData = JSON.parse( weatherObject );
-	var weather = [];
-	for ( i = 0; i < rawData.weather.length; i++ ) {
-		weather[i] = rawData.weather[i].description;
-	}
-	currentWeather = {
-	"city": rawData.name,
-	"country": rawData.sys.country,
-	"weather": weather,
-	"temperature": Math.ceil( rawData.main.temp )}
-	document.getElementById( 'city' ).innerHTML = rawData.name + ", " + rawData.sys.country;
-	document.getElementById( 'temperature' ).innerHTML = currentWeather["temperature"];
-	document.getElementById( 'weather' ).innerHTML = weather.toString();
+function setWeather(weatherData) {
+  const weather = weatherData.weather.map(w => w.description);
+  currentWeather = {
+    city: weatherData.name,
+    country: weatherData.sys.country,
+    weather: weather,
+    temperature: Math.ceil(weatherData.main.temp)
+  };
+
+  document.getElementById('city').innerHTML = `${weatherData.name}, ${weatherData.sys.country}`;
+  document.getElementById('temperature').innerHTML = currentWeather.temperature;
+  document.getElementById('weather').innerHTML = weather.join(', ');
 }
 
 /**
- * @summary Sets icon for weather.
+ * @summary Sets the weather icon based on weather conditions.
  *
- * @param object $resp weather response object returned by request.
+ * @param object weatherData The weather data response.
  */
-function getIcon( resp ) {
-	response = JSON.parse( resp );
-	var weatherIcons =  data;
-	var prefix = 'wi wi-';
-	var code = response.weather[0].id;
-	var icon = weatherIcons[ code ].icon;
-	var responseIcon = response.weather[0].icon;
-	var dayOrNight = responseIcon.charAt( responseIcon.length-1 ) === "d" ? "day" : "night";
-	// If we are not in the ranges mentioned above, add a day/night prefix.
-	if ( !( code > 699 && code < 800 ) && !( code > 899 && code < 1000 ) ) {
-		icon === "sunny" ? icon = 'day-' + icon :  icon = dayOrNight + '-' + icon;
-		//icon = dayOrNight + '-' + icon;
-	}
-	// Finally tack on the prefix.
-	icon = prefix + icon;
-	document.getElementById( 'icon' ).className =  icon;
+function getIcon(weatherData) {
+  const weatherIcons = data;
+  const code = weatherData.weather[0].id;
+  const icon = weatherIcons[code]?.icon || 'wi wi-na';
+  const responseIcon = weatherData.weather[0].icon;
+  const dayOrNight = responseIcon.charAt(responseIcon.length - 1) === 'd' ? 'day' : 'night';
+
+  const finalIcon = code > 699 && code < 800 || code > 899 && code < 1000
+    ? `${icon}`
+    : `${dayOrNight}-${icon}`;
+
+  document.getElementById('icon').className = `wi ${finalIcon}`;
 }
 
 /**
- * @summary Toggles the temperature to Celsius/Farenhiet.
+ * @summary Toggles the temperature unit between Celsius and Fahrenheit.
  */
 function changeUnit() {
-	var currentUnit = document.getElementById( 'unit' ).innerHTML;
-	if( currentUnit == "C" ) {
-		document.getElementById( 'unit' ).innerHTML = "F";
-		document.getElementById( 'temperature' ).innerHTML = cToF ( currentWeather["temperature"] );
-	} else {
-		document.getElementById( 'unit' ).innerHTML = "C";
-		document.getElementById( 'temperature' ).innerHTML = currentWeather["temperature"];
-	}
+  const currentUnit = document.getElementById('unit').innerHTML;
+  const newUnit = currentUnit === "C" ? "F" : "C";
+  const newTemp = currentUnit === "C"
+    ? cToF(currentWeather.temperature)
+    : currentWeather.temperature;
+
+  document.getElementById('unit').innerHTML = newUnit;
+  document.getElementById('temperature').innerHTML = newTemp;
 }
 
 /**
- * @summary Converts the value from celsius to Farenheit.
+ * @summary Converts Celsius to Fahrenheit.
  *
- * @param number $celsius temperature to be converted.
- *
- * @return number temperature in Farenheit.
+ * @param number celsius The temperature in Celsius.
+ * @return number The temperature in Fahrenheit.
  */
-function cToF(celsius) {  
-	return  Math.ceil( celsius * 9 / 5 + 32 );  
+function cToF(celsius) {
+  return Math.ceil(celsius * 9 / 5 + 32);
 }
 
 /**
- * @summary Sets the current date and time.
+ * @summary Sets the current date and time in the DOM.
  *
- * @param obhject $weatherObj weather response object returned by request.
+ * @param object weatherData The weather data response.
  */
-function setCurrentTime( weatherObj ) {
-	var weatherData = JSON.parse( weatherObj );
-	//time = unixToTime( weatherData.dt );
-	var timeInMs = Date.now() / 1000;
-	time = unixToTime( timeInMs );
-	document.getElementById( 'date' ).innerHTML = time;
-	// Changing background color
-	if (timeInMs > weatherData.sys.sunrise){document.body.style.backgroundColor='#6495ED'};
-	//if (timeInMs > weatherData.sys.sunrise){document.body.style.backgroundImage="url('img/ny_1.jpg')"};
-	if (timeInMs > weatherData.sys.sunset){document.body.style.backgroundColor='#0C090A'};
-	//if (timeInMs > weatherData.sys.sunset){document.body.style.backgroundImage="url('img/ny_2.jpg')"};
+function setCurrentTime(weatherData) {
+  const timeInMs = Date.now() / 1000;
+  const time = unixToTime(timeInMs);
+  document.getElementById('date').innerHTML = time;
+
+  if (timeInMs > weatherData.sys.sunrise) {
+    document.body.style.backgroundColor = '#6495ED';
+  }
+
+  if (timeInMs > weatherData.sys.sunset) {
+    document.body.style.backgroundColor = '#0C090A';
+  }
 }
 
 /**
- * @summary sets value for the additional information to be displayed.
+ * @summary Sets additional weather information in the DOM.
  *
- * @param object $weatherObj weather response object returned by request.
+ * @param object weatherData The weather data response.
  */
-function setOtherInfo( weatherObj ) {
-	var weatherData = JSON.parse( weatherObj );
-	document.getElementById( 'sunset' ).innerHTML += unixToTime( weatherData.sys.sunset, "time" );
-	document.getElementById( 'sunrise' ).innerHTML += unixToTime( weatherData.sys.sunrise, "time" );
-	document.getElementById( 'humidity' ).innerHTML += weatherData.main.humidity+"%";
-	document.getElementById( 'wind' ).innerHTML += weatherData.wind.speed+"м/c";
+function setOtherInfo(weatherData) {
+  document.getElementById('sunset').innerHTML += unixToTime(weatherData.sys.sunset, "time");
+  document.getElementById('sunrise').innerHTML += unixToTime(weatherData.sys.sunrise, "time");
+  document.getElementById('humidity').innerHTML += `${weatherData.main.humidity}%`;
+  document.getElementById('wind').innerHTML += `${weatherData.wind.speed} м/c`;
 }
 
 /**
- * @summary Converts time from Unix timestamp to human readable format.
+ * @summary Converts Unix timestamp to a human-readable format.
  *
- * @param number $timestamp timestamp to be converted into time and date.
- * @param string $returnType codes to decide the format to be returned.
- *
- * @return string Formatted Date/Time.
+ * @param number timestamp The timestamp to convert.
+ * @param string returnType The type of format to return ("time", "date", or default).
+ * @return string The formatted date or time.
  */
-function unixToTime( timestamp, returnType ) {
-	var a = new Date( timestamp * 1000 );
-	var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-	var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-	var year = a.getFullYear();
-	var month = months[a.getMonth()];
-	var date = a.getDate();
-	var day = days[a.getDay()];
-	var hour = a.getHours();
-	var mins = a.getMinutes()< 10 ? '0' + a.getMinutes() : a.getMinutes();
-	//var sec = a.getSeconds() < 10 ? '0' + a.getSeconds() : a.getSeconds();
-	var CurrentDate = day + ", " + date + ' ' + month + ' ' + year;
-	//***
-	if (hour > 12){
-		meridiem = "PM";
-		hour = hour - 12;
-	} else {
-		meridiem = "AM";
-	}
-	var time = hour + ':' + mins + meridiem;
-	//***
-	var dateTime = CurrentDate + ' ' + time ;
-	switch(returnType) {
-		case "time":
-		return time;
-		case "date":
-		return CurrentDate;
-		default:
-		return dateTime;
-	}
+function unixToTime(timestamp, returnType) {
+  const a = new Date(timestamp * 1000);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const year = a.getFullYear();
+  const month = months[a.getMonth()];
+  const date = a.getDate();
+  const day = days[a.getDay()];
+  let hour = a.getHours();
+  const mins = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes();
+  let meridiem = hour > 12 ? "PM" : "AM";
+  hour = hour > 12 ? hour - 12 : hour;
+
+  const time = `${hour}:${mins} ${meridiem}`;
+  const CurrentDate = `${day}, ${date} ${month} ${year}`;
+
+  switch (returnType) {
+    case "time":
+      return time;
+    case "date":
+      return CurrentDate;
+    default:
+      return `${CurrentDate} ${time}`;
+  }
 }
 
 init();
