@@ -1,170 +1,244 @@
-/* Base Styles -------------------------------------------*/
+/* Base Styles ------------------------------------------- */
+/* General styles for the body element */
 body {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 13px;
-	line-height: 1;
-	color: white;
-	text-shadow:
-	  -0   -2px 1px #000000,
-	   0   -2px 1px #000000,
-	  -0    2px 1px #000000,
-	   0    2px 1px #000000,
-	  -2px -0   1px #000000,
-	   2px -0   1px #000000,
-	  -2px  0   1px #000000,
-	   2px  0   1px #000000,
-	  -1px -2px 1px #000000,
-	   1px -2px 1px #000000,
-	  -1px  2px 1px #000000,
-	   1px  2px 1px #000000,
-	  -2px -1px 1px #000000,
-	   2px -1px 1px #000000,
-	  -2px  1px 1px #000000,
-	   2px  1px 1px #000000,
-	  -2px -2px 1px #000000,
-	   2px -2px 1px #000000,
-	  -2px  2px 1px #000000,
-	   2px  2px 1px #000000;
-  }
-  
-  @media (min-width: 576px) {
-	body {
-	  font-size: 13px;
-	}
-  }
-  
-  p {
-	margin: 0;
-  }
-  
-  /* Header Styles -------------------------------------------*/
-  .wrapper {
-	padding: 15px;
-  }
-  
-  #date {
-	text-align: right;
-	font-size: 2em;
-	line-height: 1;
-  }
-  
-  #city {
-	text-align: left;
-	font-size: 1em;
-	line-height: 3;
-  }
-  
-  #weather {
-	text-align: right;
-	text-transform: capitalize;
-	font-size: 1.3em;
-	line-height: 1.3;
-	padding-top: 10px;
-  }
-  
-  @media (min-height: 576px) {
-	.wrapper {
-	  padding: 20px 0;
-	}
-  }
-  
-  /* Weather Detail Styles -------------------------------------------*/
-  .weather-details {
-	padding-bottom: 10px;
-	text-align: center;
-  }
-  
-  #icon {
-	font-size: 4.5em;
-	padding: 0;
-  }
-  
-  #temperature {
-	font-size: 7em;
-	line-height: 0;
-  }
-  
-  .weather-details a {
-	color: white;
-  }
-  
-  .weather-details a:hover,
-  .weather-details a:focus {
-	color: white;
-	outline: none;
-	text-decoration: none;
-  }
-  
-  .degree {
-	font-size: 2em;
-	color: white;
-	position: relative;
-	top: -50px;
-  }
-  
-  #unit {
-	font-size: 1em;
-	display: inline-block;
-	width: 45px;
-	text-align: left;
-  }
-  
-  @media (min-width: 576px) {
-	#icon {
-	  padding: 0 10px 0 20px;
-	}
-  
-	#temperature {
-	  font-size: 8em;
-	}
-  
-	.degree {
-	  top: -65px;
-	}
-  }
-  
-  @media (min-width: 501px) {
-	#icon {
-	  top: -20px;
-	  position: relative;
-	}
-  }
-  
-  @media (max-width: 500px) {
-	#icon {
-	  display: block;
-	  padding: 10px 0 10px;
-	}
-  }
-  
-  /* Other Info Styles -------------------------------------------*/
-  .other-info {
-	text-align: center;
-	padding-top: 1px;
-	font-size: 1.2em;
-  }
-  
-  .other-info .wi {
-	font-size: 2em;
-	display: block;
-  }
-  
-  .other-info label {
-	font-size: 1.2em;
-	display: block;
-  }
-  
-  .other-info > div {
-	margin-bottom: 30px;
-  }
-  
-  @media (max-width: 500px) {
-	.col-xs-offset-3 {
-	  margin-left: 0;
-	}
-  
-	.col-xs-3 {
-	  width: 100%;
-	  float: none;
-	}
-  }
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1;
+    color: white;
+    text-shadow:
+        0 -2px 1px #000000,
+        0 2px 1px #000000,
+        -2px 0 1px #000000,
+        2px 0 1px #000000,
+        -1px -2px 1px #000000,
+        1px -2px 1px #000000,
+        -1px 2px 1px #000000,
+        1px 2px 1px #000000,
+        -2px -1px 1px #000000,
+        2px -1px 1px #000000,
+        -2px 1px 1px #000000,
+        2px 1px 1px #000000,
+        -2px -2px 1px #000000,
+        2px -2px 1px #000000,
+        -2px 2px 1px #000000,
+        2px 2px 1px #000000;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Adjust font size for larger screens */
+@media (min-width: 576px) {
+    body {
+        font-size: 13px;
+    }
+}
+
+/* Reset margin for paragraph elements */
+p {
+    margin: 0;
+}
+
+/* Header Styles ------------------------------------------- */
+/* Wrapper for the main content */
+.wrapper {
+    padding: 10px;
+}
+
+/* Date display styles */
+#date {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-align: right;
+    font-size: 2em;
+    line-height: 1;
+}
+
+/* City name display styles */
+#city {
+    position: left;
+    font-size: 1em;
+    line-height: 3;
+}
+
+/* Weather description display styles */
+#weather {
+    text-align: right;
+    text-transform: capitalize;
+    font-size: 1.5em;
+    line-height: 1.3;
+    padding-top: 0;
+    flex: 0 1 auto; /* Allow flexibility for resizing */
+}
+
+/* Weather Detail Styles ------------------------------------------- */
+/* Container for weather details */
+.weather-details {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; /* Use flexbox for horizontal alignment */
+    align-items: center; /* Vertically align items */
+    justify-content: center; /* Horizontally center items */
+    gap: 20px; /* Add spacing between items */
+    text-align: center;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+/* Weather icon styles */
+#icon {
+    font-size: 4.5em;
+    padding: 0;
+    flex: 0 1 auto; /* Allow flexibility for resizing */
+}
+
+/* Temperature display styles */
+#temperature {
+    font-size: 7em;
+    line-height: 1;
+    margin: 0;
+    text-align: center;
+    flex: 0 1 auto; /* Allow flexibility for resizing */
+}
+
+/* Link styles for weather details */
+.weather-details a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Hover and focus styles for links */
+.weather-details a:hover,
+.weather-details a:focus {
+    color: white;
+    outline: none;
+    text-decoration: underline;
+}
+
+/* Degree symbol styles */
+.degree {
+    font-size: 2em;
+    color: white;
+    position: relative;
+    top: -50px; /* Adjust position relative to temperature */
+    text-align: center;
+}
+
+/* Unit display styles */
+#unit {
+    font-size: 1em;
+    display: inline-block;
+    width: 45px;
+    text-align: left;
+}
+
+/* Other Info Styles ------------------------------------------- */
+/* Container for additional weather information */
+.other-info {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    padding-top: 1px;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+/* Weather icon styles for additional info */
+.other-info .wi {
+    font-size: 2em;
+    display: block;
+}
+
+/* Label styles for additional info */
+.other-info label {
+    font-size: 1.2em;
+    display: block;
+}
+
+/* Spacing between additional info items */
+.other-info > div {
+    margin-bottom: 30px;
+}
+
+/* Responsive Styles ------------------------------------------- */
+/* Adjustments for screens wider than 576px */
+@media (min-width: 576px) {
+    body {
+        font-size: 13px;
+    }
+
+    #icon {
+        font-size: 5em;
+        padding: 0 10px 0 20px;
+    }
+
+    #temperature {
+        font-size: 8em;
+    }
+
+    .degree {
+        top: -65px;
+    }
+}
+
+/* Adjustments for screens wider than 501px */
+@media (min-width: 501px) {
+    #icon {
+        top: -20px;
+        position: relative;
+    }
+}
+
+/* Adjustments for screens narrower than 500px */
+@media (max-width: 500px) {
+    .weather-details {
+        flex-direction: column; /* Stack items vertically on small screens */
+        gap: 10px; /* Reduce spacing between items */
+    }
+
+    #icon {
+        font-size: 3.5em;
+        display: block;
+        padding: 10px 0;
+    }
+
+    #temperature {
+        font-size: 5em;
+    }
+
+    .degree {
+        top: -40px;
+    }
+
+    .other-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .other-info .info-item {
+        margin-bottom: 10px;
+    }
+
+    /* Reset margin for small screens */
+    .col-xs-offset-3 {
+        margin-left: 0;
+    }
+
+    /* Full-width columns for small screens */
+    .col-xs-3 {
+        width: 100%;
+        float: none;
+    }
+
+    #weather {
+        font-size: 1.2em;
+    }
+}
