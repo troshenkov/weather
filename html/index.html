@@ -1,89 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="Weather Application for outdoor LED screens powered by <info@centre.media>">
-		<meta name="author" content="Dmitry Troshenkov <troshenkov.d@gmail.com>">
-		<link rel="icon" href="path/to/your/favicon.ico"> <!-- Update this path -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Weather Application for outdoor LED screens powered by <info@centre.media>">
+    <meta name="author" content="Dmitry Troshenkov <troshenkov.d@gmail.com>">
+    <link rel="icon" href="favicon.ico"> <!-- Update this path -->
 
-		<title>Weather - New York</title>
+    <title>Weather</title>
 
-		<!-- Bootstrap core CSS -->
-		<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic,700,700italic">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic,700,700italic">
 
-		<!-- Custom styles for this template -->
-		<link rel="stylesheet" href="css/style.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons-wind.min.css">
-		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-		<!--[if lt IE 9]-->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-		<!--[endif]-->
-	</head>
-	<body>
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons-wind.min.css">
 
-	<div class="wrapper">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-12" id="date">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-12">
-						<div>Centre.MEDIA</div>
-						<p id="city"></p>
-						<p id="weather"></p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-12 weather-details">
-						<span><i id="icon"></i></span>
-						<span id="temperature"></span>
-						<span class="degree">&deg;<a href="#" id="unit" onClick="changeUnit();return false">F</a></span>
-					</div>
-				</div>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <header class="row">
+                <div class="col-sm-12" id="date" aria-live="polite"></div>
+            </header>
 
-				<div class="row other-info">
-					<div class="col-sm-2 col-sm-offset-0 col-xs-3 col-xs-offset-0">
-						<span id="sunrise">
-							<i class="wi wi-sunrise"></i>
-							<label>Sunrise</label>
-						</span>
-					</div>
-					<div class="col-sm-2 col-xs-3">
-						<span id="sunset">
-							<i class="wi wi-sunset"></i>
-							<label>Sunset</label>
-						</span>
-					</div>
-					<div class="col-sm-2 col-sm-offset-0 col-xs-3 col-xs-offset-0">
-						<span id="humidity">
-							<i class="wi wi-humidity"></i>
-							<label>Humidity</label>
-						</span>
-					</div>
-					<div class="col-sm-2 col-xs-3">
-						<span id="wind">
-							<i class="wi wi-windy"></i>
-							<label>Wind</label>
-						</span>
-					</div>
-				</div><!-- .other-info -->
-			</div><!-- .container -->
-		</div><!-- .wrapper -->
+            <main>
+    
+                <section class="weather-header">  
+                    <div class="col-sm-12">
+                        <div>Centre.MEDIA</div>
+                        <div id="city"></div>
+                        <div id="date"></div>
+                    </div>
+                </section>
 
-		<!-- Bootstrap core JavaScript
-		 ==========================================================
-		 Placed at the end of the document so the pages load faster -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/setImmediate/1.0.5/setImmediate.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/promise-js@0.0.7/promise.min.js"></script>
-		<script type="application/json" src="json/icons.json"></script>
-		<script src="javascript/weather.js"></script>
-	</body>
+                <section class="weather-details">
+                    <i id="icon" class="wi wi-day-cloudy" aria-hidden="true"></i>
+                    <span id="temperature" aria-live="polite"></span>
+                    <span id="weather"></span>
+                </section>
+
+                <section class="other-info">
+                    <div class="info-item" id="sunset">
+                        <i class="wi wi-sunset" aria-hidden="true"></i>
+                        <span aria-label="Sunset time"></span>
+                        <label>Sunset</label>
+                    </div>
+                    <div class="info-item" id="sunrise">
+                        <i class="wi wi-sunrise" aria-hidden="true"></i>
+                        <span aria-label="Sunrise time"></span>
+                        <label>Sunrise</label>
+                    </div>
+                    <div class="info-item" id="humidity">
+                        <i class="wi wi-humidity" aria-hidden="true"></i>
+                        <span aria-label="Humidity level"></span>
+                        <label>Humidity</label>
+                    </div>
+                    <div class="info-item" id="wind">
+                        <i class="wi wi-windy" aria-hidden="true"></i>
+                        <span aria-label="Wind speed"></span>
+                        <label>Wind</label>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/setImmediate/1.0.5/setImmediate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-js@0.0.7/promise.min.js"></script>
+    <script src="javascript/weather.js"></script>
+</body>
 </html>
